@@ -12,19 +12,19 @@ This is a simple weather app that allows users to get the current weather detail
 ## Screenshots
 - Home
 
-<img src="public/images/sc1.png" alt="Custom Size Image" width="500">
+<img src="images/sc1.png" alt="Custom Size Image" width="500">
 
 ---
 
 - weather page
 
-<img src="public/images/sc2.png" alt="Custom Size Image" width="500">
+<img src="images/sc2.png" alt="Custom Size Image" width="500">
 
 ---
 
 - about page
 
-<img src="public/images/sc3.png" alt="Custom Size Image" width="500">
+<img src="images/sc3.png" alt="Custom Size Image" width="500">
 
 ## Prerequisites
 Before you can run the app, ensure that you have the following installed:
