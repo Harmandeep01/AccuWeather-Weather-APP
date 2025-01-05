@@ -57,7 +57,7 @@
                 <div class="tempInfo">
                     <div class="topLayer">
                         <p id="day">Thursday</p>
-                        <p class="todayDate">26 dec</p>
+                        <p id="todayDate">26 dec</p>
                     </div>
                     <div class="mainLayer">
                         <p id="city_name" class="cityName">get output here</p>
@@ -84,7 +84,36 @@
         const city_name = document.getElementById('city_name');
         const temp = document.getElementById('temp');
         const temp_status = document.getElementById('temp-status');
+        const day = document.getElementById('day');
+        const fullDate = document.getElementById('todayDate');
 
+        const getDate = async(event) => {
+          const today = new Date();
+          const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+          const dayName = days[today.getDay()];
+          day.innerHTML = dayName;
+
+          let date = today.getDate();
+          if(date < 10){
+            date = `0${date}`
+          }
+
+
+          let  month = today.getMonth() + 1;
+          if(month < 10){
+            month = `0${month}`;
+          }
+
+
+          const year = today.getFullYear();
+
+
+          const formattedDate = `${date}/${month}/${year}`;
+          if(fullDate){
+            fullDate.innerHTML = formattedDate;
+          }
+        }
+        getDate();
         const getInfo = async(event) =>{
             let cityVal = city.value;
             event.preventDefault();
