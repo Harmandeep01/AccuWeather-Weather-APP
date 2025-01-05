@@ -9,6 +9,23 @@ This is a simple weather app that allows users to get the current weather detail
 - **About Page**: Information about the app and its functionality.
 - **Responsive Navigation Bar**: A navbar that links to the Home, Weather, and About pages.
 
+## Screenshots
+- Home
+
+<img src="public/images/sc1.png" alt="Custom Size Image" width="500">
+
+---
+
+- weather page
+
+<img src="public/images/sc2.png" alt="Custom Size Image" width="500">
+
+---
+
+- about page
+
+<img src="public/images/sc3.png" alt="Custom Size Image" width="500">
+
 ## Prerequisites
 Before you can run the app, ensure that you have the following installed:
 - Node.js (v16.0.0 or later)
