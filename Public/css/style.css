@@ -263,19 +263,41 @@ body{
 #weather-icon{
   margin: 5px;
 }
+.container-fluid {
+  overflow: hidden; /* Ensure no clipping or alignment issues */
+}
 
   /* footer */
-  footer{
+  footer {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
-    height: 100px;
+    height: 120px; /* Avoid fixed height unless necessary */
     margin-top: auto;
     background-color: var(--main-bg);
+    padding: 1rem;
+}
+
+  footer .img{
+    margin : 0 0 0 1rem;
+    width: 300px;
+    height: 50px;
   }
+
   footer p{
+    margin: auto;
+    text-align: center;
+      color: #fff;
+    font-size: 2.8rem;
+  }
+
+  footer #credit{
     text-align: center;
     color: #fff;
     font-size: 2rem;
-    line-height: 3rem;
+    margin-right: 2rem;
+    margin-top: 3.5rem;
+    line-height: 2rem;
   }
 
   /* Responsive Code */
@@ -287,5 +309,11 @@ body{
     .main-header-right{
       height: auto;
       margin-top: 3rem 0;
+    }
+    .main-contenttemp-form{
+      width: 200px;
+    }
+    .tempInfo{
+      width: auto ;
     }
   }
