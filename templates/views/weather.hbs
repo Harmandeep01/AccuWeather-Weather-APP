@@ -114,67 +114,37 @@
           }
         }
         getDate();
-        const getInfo = async(event) =>{
-            let cityVal = city.value;
-            event.preventDefault();
-            if(cityVal === ""){
-                city_name.innerHTML = "Please enter your city";
-            } else{
-                try{
-                  //API for fetching city Key for fetching weather based on that, and country code
-                        let keyUrl = `https://dataservice.accuweather.com/locations/v1/cities/search?q=${cityVal}&apikey=${apiKey}`;
-                        const response = await fetch(keyUrl);
-                        const data = await response.json();
-                        {{!-- console.log(data[0]) --}}
-                        const stateCode = data[0].AdministrativeArea.ID;
-                        const countryCode = data[0].Country.ID;
-                        city_name.innerHTML = `${cityVal}, ${stateCode}, ${countryCode}`;
+        const getInfo = async(event) => {
+  const cityVal = city.value;
+  event.preventDefault();
+  if (cityVal === "") {
+    city_name.innerHTML = "Please enter your city";
+  } else {
+    try {
+      // Call the new Vercel API route
+      const response = await fetch(`/api/weather?city=${cityVal}`);
+      const data = await response.json();
 
-                  //API for fetchhing weather
-                        const cityKey = data[0].Key;
-                        let fetchedWeather = `http://dataservice.accuweather.com/currentconditions/v1/${cityKey}?apikey=${apiKey}`;
-                        const weatherResponse = await fetch(fetchedWeather);
-                        const jsonWeatherData = await weatherResponse.json();
-                        console.log(jsonWeatherData);
-              
-                        const tempValue  = (jsonWeatherData[0].Temperature.Metric.Value);
-                        temp.innerHTML = `${tempValue}°C`
-                        temp_status.innerHTML = jsonWeatherData[0].WeatherText;
-                        const weathericonText = jsonWeatherData[0].WeatherIcon;
+      if (data.error) {
+        city_name.innerHTML = data.error;
+      } else {
+        const weather = data[0];  // Use weather data from the response
+        city_name.innerHTML = `${cityVal}`;
+        const tempValue = weather.Temperature.Metric.Value;
+        temp.innerHTML = `${tempValue}°C`;
+        temp_status.innerHTML = weather.WeatherText;
+        const weatherIcon = weather.WeatherIcon;
 
-                        //Dynamic image integration
-                        const customIcons = {};
-                        for (let i = 1; i <= 44; i++) {
-                          // Ensure two-digit formatting for the icon number
-                          const iconNumber = i.toString().padStart(2, '0');
-                          customIcons[i] = `https://developer.accuweather.com/sites/default/files/${iconNumber}-s.png`;
-                        }
+        // Dynamic weather icon integration
+        const iconUrl = `https://developer.accuweather.com/sites/default/files/${String(weatherIcon).padStart(2, '0')}-s.png`;
+        weatherIcon.src = iconUrl;
+      }
+    } catch {
+      city_name.innerHTML = "Please enter correct city name";
+    }
+  }
+};
 
-                        const weatherIconText = jsonWeatherData[0].WeatherIcon;
-
-                        if (customIcons[weatherIconText]) {
-                          const iconUrl = customIcons[weatherIconText];
-                          const weatherIcon = document.getElementById('weather-icon'); // Ensure this matches your HTML element ID
-
-                          if (weatherIcon && weatherIcon.tagName === 'IMG') {
-                            weatherIcon.src = iconUrl; // Set the image source dynamically
-                          } else {
-                            console.error("No valid <img> element found with ID 'weatherIcon'.");
-                          }
-                        } else {
-                          console.log("No matching icon found for the provided WeatherIcon.");
-                        }
-
-
-                      
-
-                }
-                catch{
-                        city_name.innerHTML = "Please enter correct city name";
-                }
-              
-            }
-        }
         submitBtn.addEventListener('click', getInfo);
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
