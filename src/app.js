@@ -7,8 +7,9 @@ const PORT = process.env.PORT || 3000;
 
 
 const publicPath = path.join(__dirname, '../Public');
+app.use(express.static(publicPath));  
 
-app.use(express.static(publicPath));    
+
 const viewsPath = path.join(__dirname, '../templates/views')
 const partialsPath = path.join(__dirname, '../templates/partials')
 
@@ -31,6 +32,6 @@ app.get('*', (req, res) => {
     });
 })
 
-app.listen(port, () => {
-    console.log(`Listening to the ${port}`);
+app.listen(PORT, () => {
+    console.log(`Listening to the ${PORT}`);
 })

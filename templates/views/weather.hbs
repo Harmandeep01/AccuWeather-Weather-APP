@@ -78,12 +78,13 @@
     <!-- footer -->
      {{>footer}}
     <script>
-        const apiKey = `FJp7vZUZDRghiPrWhgkAcR8kBkxuGXGf`;
+        const apiKey = `4ALLuMtgahq7MmVudA0ovDO8kDm5DPQA`;
         const submitBtn = document.getElementById('submitBtn');
         const city = document.getElementById('city');
         const city_name = document.getElementById('city_name');
         const temp = document.getElementById('temp');
         const temp_status = document.getElementById('temp-status');
+        const weather_icon = document.getElementById('weather-icon');
         const day = document.getElementById('day');
         const fullDate = document.getElementById('todayDate');
 
@@ -122,24 +123,31 @@
   } else {
     try {
       // Call the new Vercel API route
-      const response = await fetch(`/api/weather?city=${cityVal}`);
+      const response = await fetch(`https://dataservice.accuweather.com/locations/v1/cities/search?apikey=4ALLuMtgahq7MmVudA0ovDO8kDm5DPQA&q=${cityVal}`);
+     
       const data = await response.json();
-
-      if (data.error) {
-        city_name.innerHTML = data.error;
+  {{!-- console.log(data); --}}
+      if (!data || data.length === 0) {
+        city_name.innerHTML = 'Hard'
       } else {
-        const weather = data[0];  // Use weather data from the response
-        city_name.innerHTML = `${cityVal}`;
-        const tempValue = weather.Temperature.Metric.Value;
+        city_name.innerHTML =  data[0].EnglishName
+        {{!-- console.log(data[0].EnglishName) --}}
+       const locationKey = data[0].Key;
+const weatherRes = await fetch(`https://dataservice.accuweather.com/currentconditions/v1/${locationKey}?apikey=4ALLuMtgahq7MmVudA0ovDO8kDm5DPQA`);
+const weatherData = await weatherRes.json();
+  {{!-- console.log('Weather data',weatherData) --}}
+        const tempValue = weatherData[0].Temperature.Metric.Value;
         temp.innerHTML = `${tempValue}°C`;
-        temp_status.innerHTML = weather.WeatherText;
-        const weatherIcon = weather.WeatherIcon;
+        temp_status.innerHTML = weatherData[0].WeatherText;
+        const weatherIcon = weatherData[0].WeatherIcon;
 
         // Dynamic weather icon integration
-        const iconUrl = `https://developer.accuweather.com/sites/default/files/${String(weatherIcon).padStart(2, '0')}-s.png`;
-        weatherIcon.src = iconUrl;
+        const iconUrl =  (`https://developer.accuweather.com/sites/default/files/${String(weatherIcon).padStart(2, '0')}-s.png`);
+        {{!-- console.log(iconUrl) --}}
+        weather_icon.src = iconUrl;
       }
-    } catch {
+    } catch (error){
+      console.log(error, error.message)
       city_name.innerHTML = "Please enter correct city name";
     }
   }
